@@ -1,0 +1,10 @@
+
+.my-heading {
+  color: #6d91bc;
+  font-size: 48px;
+}
+
+.webpack-logo {
+  background: url("../img/webpack-logo-large.png") no-repeat;
+  height: 150px;
+}
