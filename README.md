@@ -5,9 +5,8 @@
 **See webpack-1 branch for v1**
 
 ### Prerequisites
-* node js ^6.9.1
-* npm ^3.10.5
-* webpack 2.0
+* node js >=6.9.1
+* npm >=3.10.9
 
 ### Quick Start
 * Clone this repo, checkout to desired branch
@@ -65,7 +64,7 @@ npm run build
 ```
 
 ### TODO
-* Update configs when [Webpack v2.0](https://webpack.js.org/) stable is out 
+* Test everything with [Webpack v2.0](https://webpack.js.org/) stable 
 * Non-js assets are not being loaded, fix it 
 
 ### License

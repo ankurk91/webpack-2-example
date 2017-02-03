@@ -105,7 +105,7 @@ module.exports = {
     quiet: false,
     stats: 'errors-only'
   },
-  devtool: isProd ? false : '#eval-source-map',
+  devtool: isProd ? false : '#cheap-eval-source-map',
   watch: false,
   target: 'web'
 };
