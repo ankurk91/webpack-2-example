@@ -34,7 +34,15 @@ module.exports = {
         test: /\.js$/,
         loader: 'babel-loader',
         options: {
-          presets: ["es2015"]
+          presets: [
+            ['env', {
+              'modules': false,
+              'targets': {
+                'browsers': ['> 2%'],
+                uglify: true
+              }
+            }]
+          ]
         },
         include: path.resolve(__dirname, 'src'),
         exclude: path.resolve(__dirname, 'node_modules'),
