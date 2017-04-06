@@ -15,5 +15,6 @@ console.log(messages.message);
 // Write the text on page
 document.write(messages.message);
 
+// This image file should be base64 into js itself
 import logo from '../img/webpack-logo-small.png';
 document.querySelector('#logo').src = logo;

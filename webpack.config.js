@@ -25,7 +25,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),// where to store build files
     publicPath: '',// to be used in index.html
-    filename: "js/[name].[hash].js" // build file name
+    filename: "js/[name].[" + (isProd ? 'chunkhash' : 'hash') + "].js" // build file name
   },
   module: {
     rules: [
@@ -43,25 +43,26 @@ module.exports = {
       {
         test: /\.css$/,
         loader: isProd ? ExtractTextPlugin.extract({
-          fallbackLoader: 'style-loader',
+          fallback: 'style-loader',
           loader: 'css-loader',
         }) : 'style-loader!css-loader',
       },
-      // Catch image files and base64 if bigger than 8k while leave rest
+      // Catch image files and store them in separate folder
+      // todo use url-loader to base64 small files
       {
         test: /\.jpe?g$|\.gif$|\.png$/i,
-        loader: 'url-loader?limit=8192&name=/img/[name].[hash].[ext]'
+        loader: 'file-loader?name=[name].[hash].[ext]' + (isProd ? '&publicPath=/&outputPath=img/' : ''),
       },
       // Catch all fonts and store them to a separate folder
       {
         test: /\.(woff|woff2|eot|ttf|svg)(\?.*$|$)/,
-        loader: 'file-loader?name=/fonts/[name].[ext]?[hash]'
+        loader: 'file-loader?name=[name].[ext]?[hash]' + (isProd ? '&publicPath=/&outputPath=fonts/' : ''),
       }
 
     ]
   },
   plugins: [
-    // Minify HTML + Inject assets in html
+    // Minify HTML + Auto inject assets in html
     new HtmlWebpackPlugin({
       inject: true,
       hash: false,
@@ -80,7 +81,7 @@ module.exports = {
     // Expose some global vars in our code
     new webpack.DefinePlugin({
       API_CONFIG: JSON.stringify({
-        'baseUrl': 'http://localhost.com:8080/api/v1'
+        'baseUrl': 'http://localhost:8080/api/v1'
       }),
       'process.env': {
         NODE_ENV: isProd ? '"production"' : '"development"'
@@ -115,28 +116,29 @@ let plugins = [];
 if (isProd) {
   // Production only plugins
   plugins.push(
-    // Minify JS files
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false,
-        drop_console: true
-      },
-      output: {
-        comments: false
-      }
-    }),
-    new webpack.LoaderOptionsPlugin({
-      minimize: true
-    }),
-    // Extract css and store them into a separate file
-    new ExtractTextPlugin('css/styles.[hash].css'),
-    new webpack.BannerPlugin('Webpack example (c) 2016')
+      // Minify JS files
+      new webpack.optimize.UglifyJsPlugin({
+        compress: {
+          warnings: false,
+          drop_console: true,
+          drop_debugger: true,
+        },
+        output: {
+          comments: false
+        }
+      }),
+      new webpack.LoaderOptionsPlugin({
+        minimize: true
+      }),
+      // Extract css and store them into a separate file
+      new ExtractTextPlugin('css/styles.[hash].css'),
+      new webpack.BannerPlugin('Webpack example (c) 2016')
   )
 } else {
   // Dev only plugins
   plugins.push(
-    // Required when hot = true in dev server configs
-    new webpack.HotModuleReplacementPlugin()
+      // Required when hot = true in dev server configs
+      new webpack.HotModuleReplacementPlugin()
   );
 }
 

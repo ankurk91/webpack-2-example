@@ -49,6 +49,8 @@ npm run build
 │   ├── dist/
 │   │   ├── js/
 │   │   ├── css/
+│   │   ├── fonts/
+│   │   ├── img/
 │   │   └──  index.html
 │   ├── node_modules/
 │   ├── src/
@@ -62,10 +64,6 @@ npm run build
 │   └──  package.json
 
 ```
-
-### TODO
-* Test everything with [Webpack v2.0](https://webpack.js.org/) stable 
-* Non-js assets are not being loaded, fix it 
 
 ### License
 MIT [License](LICENSE.txt)
